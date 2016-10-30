@@ -101,26 +101,12 @@ public:
 	bool isLeaf() { return !hasLeft() && !hasRight(); }
 	int getSize() {
 
-		if (isLeaf())
-		{
-			return 1;
-		}
-		else if (hasBoth())
-		{
-			return left->getSize() + right->getSize() + 1;
-		}
-		else if (hasLeft())
-		{
-			return left->getSize() + 1;
-		}
-		else if (hasRight())
-		{
-			return right->getSize() + 1;
-		}
-		else
-		{
-			return 0;
-		}
+		int n = 1;
+
+		if (hasLeft()) n += left->getSize();
+		if (hasRight()) n += right->getSize();
+
+		return n;
 	}
 	int getLeftBranchHeight() { // returns the height of left branch
 
@@ -170,36 +156,130 @@ public:
 		return parent->getRoot();
 	}
 	BTNode* findInFirst() {  // first node in in-order
-							 //... fill this method
-		return NULL;
+		
+		if (hasLeft())
+		{
+			return left->findInFirst();
+		}
+		else
+		{
+			return this;
+		}
 	}
 	BTNode* findLeftMost() { return findInFirst(); }
 	BTNode* findInLast() {  // last node in in-order
-							//... fill this method
-		return NULL;
+		
+		if (hasRight())
+		{
+			return right->findInLast();
+		}
+		else
+		{
+			return this;
+		}
 	}
 	BTNode* findRightMost() { return findInLast(); }
 	BTNode* findPostFirst() {  // first node in post-order
-							   //... fill this method
-		return NULL;
+		
+		if (hasLeft())
+		{
+			return left->findPostFirst();
+		}
+		else if (hasRight())
+		{
+			return right->findPostFirst();
+		}
+		else
+		{
+			return this;
+		}
 	}
 
 	//-- ex C-7.5
 	// from : child from which this was called recursively
 	BTNode* findPreNext() { // next node after this in pre-order
-							//... fill this method
-		return NULL;
+							
+		if (isLeaf())
+		{
+			if (this->isRoot())
+			{
+				return NULL;
+			}
+
+			BTNode* now = parent;
+			BTNode* front = this;
+
+			while ( (!now->hasRight()) || (now->right == front) )
+			{
+				if (now->isRoot())
+				{
+					return NULL;
+				}
+
+				front = now;
+				now = now->parent;
+			}
+
+			if (now->hasRight())
+			{
+				return now->right;
+			}
+		
+		}
+		else if (hasLeft())
+		{
+			return left;
+		}
+		else
+		{
+			return right;
+		}		
 	}
 
 	// from : child from which this was called recursively
 	BTNode* findInNext() { // next node after this in in-order
-						   //... fill this method
-		return NULL;
+		
+		if (hasRight())
+		{
+			return right->findInFirst();
+		}
+		else
+		{
+			BTNode* now = this;
+
+			while ( (!now->isRoot()) && (now->parent->right == now) )
+			{
+				now = now->parent;
+			}
+
+			if (now->isRoot())
+			{
+				return NULL;
+			}
+			else
+			{
+				return now->parent;
+			}
+		}
 	}
 
 	BTNode* findPostNext() {  // next node after this in post-order
-							  //... fill this method
-		return NULL;
+		
+		if (isRoot())
+		{
+			return NULL;
+		}
+
+		BTNode* p = this->parent;
+
+		if ((this == p->left) && (p->hasRight()))
+		{
+			return p->right->findPostFirst();
+		}
+		else
+		{
+			return p;
+		}
 	}
 
 	// Lowest Common Ancestor : ex C.7-24
