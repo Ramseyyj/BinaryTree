@@ -29,89 +29,66 @@ public:
 	virtual void visitNode() { cout << data << " "; }
 	virtual void visitPreOrder() {
 
-		this->visitNode();
+		visitNode();
 
-		if (this->hasBoth())
-		{
-			left->visitPreOrder();
-			right->visitPreOrder();
-		}
-		else if (this->hasLeft())
+		if (hasLeft())
 		{
 			left->visitPreOrder();
 		}
-		else if (this->hasRight())
+
+		if (hasRight())
 		{
 			right->visitPreOrder();
 		}
 	}
 	virtual void visitPostOrder() {
 
-		if (this->hasBoth())
-		{
-			left->visitPostOrder();
-			right->visitPostOrder();
-		}
-		else if (this->hasLeft())
+		if (hasLeft())
 		{
 			left->visitPostOrder();
 		}
-		else if (this->hasRight())
+		
+		if (hasRight())
 		{
 			right->visitPostOrder();
 		}
 
-		this->visitNode();
+		visitNode();
 	}
 	virtual void visitInOrder() {
 
-		if (this->hasBoth())
+		if (hasLeft())
 		{
-			left->visitInOrder();
-			this->visitNode();
-			right->visitInOrder();
-		}
-		else if (this->hasLeft())
-		{
-			left->visitInOrder();
-			this->visitNode();
-		}
-		else if (this->hasRight())
-		{
-			this->visitNode();
-			right->visitInOrder();
-		}
-		else
-		{
-			this->visitNode();
+			left->visitInOrder();			
 		}
 
+		visitNode();
+
+		if (hasRight())
+		{
+			right->visitInOrder();
+		}
 	}
 	virtual void visitLevelOrder() {
 
-		queue<BTNode*> q1;
-		BTNode* now;
+		queue<BTNode*> Q;
 
-		q1.push(this);
+		Q.push(this);
 
-		while (!q1.empty())
+		while (!Q.empty())
 		{
-			now = q1.front();
-			q1.pop();
+			BTNode* now = Q.front();
+			Q.pop();
 			now->visitNode();
 
-			if (now->hasBoth())
+			if (now->hasLeft())
 			{
-				q1.push(now->left);
-				q1.push(now->right);
+				Q.push(now->left);
 			}
-			else if (now->hasLeft())
+
+			if (now->hasRight())
 			{
-				q1.push(now->left);
-			}
-			else if (now->hasRight())
-			{
-				q1.push(now->right);
+				Q.push(now->right);
 			}
 		}
 	}
@@ -124,19 +101,19 @@ public:
 	bool isLeaf() { return !hasLeft() && !hasRight(); }
 	int getSize() {
 
-		if (this->isLeaf())
+		if (isLeaf())
 		{
 			return 1;
 		}
-		else if (this->hasBoth())
+		else if (hasBoth())
 		{
 			return left->getSize() + right->getSize() + 1;
 		}
-		else if (this->hasLeft())
+		else if (hasLeft())
 		{
 			return left->getSize() + 1;
 		}
-		else if (this->hasRight())
+		else if (hasRight())
 		{
 			return right->getSize() + 1;
 		}
@@ -147,7 +124,7 @@ public:
 	}
 	int getLeftBranchHeight() { // returns the height of left branch
 
-		if (this->hasLeft())
+		if (hasLeft())
 		{
 			return left->getHeight() + 1;
 		}
@@ -159,7 +136,7 @@ public:
 	}
 	int getRightBranchHeight() { // returns the height of right branch
 
-		if (this->hasRight())
+		if (hasRight())
 		{
 			return right->getHeight() + 1;
 		}
@@ -170,14 +147,14 @@ public:
 	}
 	int getHeight() {
 
-		int leftHeight = this->getLeftBranchHeight();
-		int rightHeight = this->getRightBranchHeight();
+		int leftHeight = getLeftBranchHeight();
+		int rightHeight = getRightBranchHeight();
 
 		return leftHeight > rightHeight ? leftHeight : rightHeight;
 	}
 	int getDepth() {
 
-		if (this->isRoot())
+		if (isRoot())
 		{
 			return 0;
 		}
