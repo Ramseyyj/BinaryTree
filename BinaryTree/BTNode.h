@@ -224,6 +224,10 @@ public:
 			{
 				return now->right;
 			}
+			else
+			{
+				return NULL;
+			}
 		
 		}
 		else if (hasLeft())
@@ -293,8 +297,34 @@ public:
 
 	// diameter of a subtree : ex C.7-25
 	int getDiameter() {
-		//... fill this method
-		return 0;
+		
+		int max = 0;
+		int leftDiameter = 0;
+		int rightDiameter = 0;
+
+		if (hasLeft())
+		{
+			leftDiameter = left->getDiameter();
+			max += left->getHeight() + 1;
+		}
+
+		if (hasRight())
+		{
+			rightDiameter = right->getDiameter();
+			max += right->getHeight() + 1;
+
+		}		
+
+		if (leftDiameter > max)
+		{
+			max = leftDiameter;
+		}
+		if (rightDiameter > max)
+		{
+			max = rightDiameter;
+		}
+
+		return max;
 	}
 
 	// ex C-7.11
