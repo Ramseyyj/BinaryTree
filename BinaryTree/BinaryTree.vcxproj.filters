@@ -24,7 +24,7 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="D:\OneDrive\Documents\课设代写\4\BTNode.h">
+    <ClInclude Include="BTNode.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="D:\OneDrive\Documents\课设代写\4\HW4.cpp">
+    <ClCompile Include="HW4.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
