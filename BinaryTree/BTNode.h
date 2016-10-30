@@ -288,8 +288,36 @@ public:
 
 	// Lowest Common Ancestor : ex C.7-24
 	BTNode* findLCA(BTNode* that) {
-		//... fill this method
-		return NULL;
+		
+		BTNode* node1 = this;
+		BTNode*	node2 = that;
+
+		int len1 = node1->getDepth();
+		int len2 = node2->getDepth();
+
+		for (; len1 > len2; len1--)
+		{
+			node1 = node1->parent;
+		}
+		for (; len2 > len2; len2--)
+		{
+			node2 = node2->parent;
+		}
+
+		while (node1 && node2 && node1 !=node2)		
+		{
+			node1 = node1->parent;
+			node2 = node2->parent;
+		}
+
+		if (node1 == node2)
+		{
+			return node1;
+		}
+		else
+		{
+			return NULL;
+		}
 	}
 	static BTNode* findLCA(BTNode* v, BTNode* w) {
 		return v->findLCA(w);
@@ -329,8 +357,8 @@ public:
 
 	// ex C-7.11
 	int getBalanceFactor() {
-		//... fill this method
-		return 0;
+		
+		return abs(getLeftBranchHeight() - getRightBranchHeight());
 	}
 
 	virtual ~BTNode() {
